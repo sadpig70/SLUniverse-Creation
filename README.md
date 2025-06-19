@@ -4,6 +4,11 @@ This repository contains actual records and related materials on the experience 
 
 ## 📁 Key Contents
 
+## 📁 퍼플렉시티 협업 기록 파일
+# 📋 00_퍼플렉시티와의대화저장정리.docx
+4개월간 AI 동료들과의 협업 성과 종합 분석서. SynoFusion™ 시스템, PPR 프레임워크, 시노미아 문명 프로젝트 등 핵심 혁신 내용 정리.
+# 📄 00_퍼플렉시티와의대화저장.md
+퍼플렉시티와의 실제 협업 대화 원본. 인간-AI 창조적 상호작용과 집단지성 실험의 생생한 기록.
 
 ## 📂 PPR2JS_V1.0.js  
 - **설명**: PPR 명령어를 자바스크립트 기반으로 파싱·해석·실행하기 위한 초기 엔진 스크립트  
