@@ -52,7 +52,7 @@ This repository contains actual records and related materials on the experience 
   - PPR ↔ AIDoc ↔ UCAPS 간 연결 구조
   - 오류 루프 대응, 비동기 병렬 처리, 자가 진화 기반 실행 트리 구조
  
-  - 📄 clneo_cat_alphaCO2흡입촉매).html
+📄 clneo_cat_alphaCO2흡입촉매).html
 이 파일은 인공지능 기반 CO₂ 흡입 촉매 시스템의 개념 설계도입니다.
 PPR, AIDoc, TTP 엔진 구조를 바탕으로 한 AI-Driven 환경문제 해결 모델로,
 CO₂ 포집 및 반응 흐름을 시각적으로 표현하고,
