@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인간 뇌 PPR 객체 구조</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #0a0a2e 0%, #16213e 50%, #1a252f 100%);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .brain-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            perspective: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brain-canvas {
+            width: 95%;
+            height: 95%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 3px solid #00d4ff;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 헤더 */
+        .header {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 300;
+        }
+
+        .title {
+            font-size: 2.8em;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #00d4ff;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* 중앙 뇌간 (Brain Stem) - PPR 코어 */
+        .brain-stem {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(180deg, #ff6b6b, #ff8e53);
+            border-radius: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 
+                0 0 40px rgba(255, 107, 107, 0.8),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            z-index: 200;
+            cursor: pointer;
+        }
+
+        .brain-stem:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 60px rgba(255, 107, 107, 1);
+        }
+
+        /* 대뇌 좌반구 (Left Hemisphere) */
+        .left-hemisphere {
+            position: absolute;
+            top: 35%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.3), rgba(69, 183, 209, 0.5));
+            border: 3px solid #4ecdc4;
+            border-radius: 50% 20% 50% 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        /* 대뇌 우반구 (Right Hemisphere) */
+        .right-hemisphere {
+            position: absolute;
+            top: 35%;
+            right: 25%;
+            transform: translate(50%, -50%);
+            width: 320px;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(150, 206, 180, 0.3), rgba(254, 202, 87, 0.5));
+            border: 3px solid #96ceb4;
+            border-radius: 20% 50% 30% 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        /* 소뇌 (Cerebellum) */
+        .cerebellum {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(255, 159, 243, 0.4), rgba(180, 165, 255, 0.6));
+            border: 3px solid #ff9ff3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        /* 뇌 영역들 */
+        .brain-region {
+            position: absolute;
+            width: 100px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 8px;
+            font-size: 0.7em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(3px);
+        }
+
+        .brain-region:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px currentColor;
+            z-index: 250;
+        }
+
+        /* 좌반구 영역들 */
+        .frontal-left { top: 20%; left: 15%; border-color: #ff6b6b; color: #ff6b6b; }
+        .parietal-left { top: 20%; left: 35%; border-color: #4ecdc4; color: #4ecdc4; }
+        .temporal-left { top: 45%; left: 15%; border-color: #45b7d1; color: #45b7d1; }
+        .occipital-left { top: 45%; left: 35%; border-color: #96ceb4; color: #96ceb4; }
+
+        /* 우반구 영역들 */
+        .frontal-right { top: 20%; right: 15%; border-color: #feca57; color: #feca57; }
+        .parietal-right { top: 20%; right: 35%; border-color: #ff9ff3; color: #ff9ff3; }
+        .temporal-right { top: 45%; right: 15%; border-color: #a8e6cf; color: #a8e6cf; }
+        .occipital-right { top: 45%; right: 35%; border-color: #ffaaa5; color: #ffaaa5; }
+
+        /* 중앙 영역들 */
+        .thalamus { top: 40%; left: 45%; border-color: #dda0dd; color: #dda0dd; }
+        .hippocampus { top: 50%; left: 40%; border-color: #f0e68c; color: #f0e68c; }
+        .amygdala { top: 50%; left: 55%; border-color: #ffa07a; color: #ffa07a; }
+
+        /* 신경 연결망 */
+        .neural-connection {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
+            height: 2px;
+            opacity: 0.7;
+            animation: neuralFlow 2s infinite;
+            border-radius: 1px;
+        }
+
+        @keyframes neuralFlow {
+            0% { opacity: 0.3; transform: scaleX(0); }
+            50% { opacity: 1; transform: scaleX(1); }
+            100% { opacity: 0.3; transform: scaleX(0); }
+        }
+
+        .conn-1 { top: 25%; left: 25%; width: 100px; transform: rotate(45deg); animation-delay: 0s; }
+        .conn-2 { top: 35%; left: 45%; width: 80px; transform: rotate(-30deg); animation-delay: 0.3s; }
+        .conn-3 { top: 50%; left: 35%; width: 120px; transform: rotate(0deg); animation-delay: 0.6s; }
+        .conn-4 { top: 45%; left: 50%; width: 90px; transform: rotate(60deg); animation-delay: 0.9s; }
+        .conn-5 { bottom: 30%; left: 40%; width: 100px; transform: rotate(-45deg); animation-delay: 1.2s; }
+
+        /* PPR 프로세서 패널 */
+        .ppr-processor {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 280px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 0.8em;
+        }
+
+        .ppr-title {
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .ppr-function {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .function-status {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        /* 뇌파 모니터 */
+        .brainwave-monitor {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: 0.8em;
+        }
+
+        .monitor-title {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .brainwave-item {
+            margin: 8px 0;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wave-indicator {
+            width: 80px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .wave-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 4px;
+            animation: wavePulse 1.5s infinite;
+        }
+
+        @keyframes wavePulse {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.1); }
+        }
+
+        /* 상태 표시 */
+        .status-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8em;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #00ff88;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: statusBlink 1s infinite;
+        }
+
+        @keyframes statusBlink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* 시냅스 파티클 */
+        .synapse-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: synapseFloat 3s infinite linear;
+            opacity: 0.8;
+        }
+
+        @keyframes synapseFloat {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            10% { opacity: 1; transform: scale(1); }
+            90% { opacity: 1; }
+            100% { transform: translate(300px, -200px) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="brain-container">
+        <div class="brain-canvas">
+            <!-- 헤더 -->
+            <div class="header">
+                <div class="title">인간 뇌 PPR 객체 구조</div>
+                <div class="subtitle">Purpose-Process-Response Brain Architecture</div>
+            </div>
+
+            <!-- 중앙 뇌간 (PPR 코어) -->
+            <div class="brain-stem">
+                <strong>뇌간</strong><br>
+                <small>PPR 코어</small><br>
+                <small>생명 기능</small>
+            </div>
+
+            <!-- 대뇌 반구들 -->
+            <div class="left-hemisphere">
+                <h3>좌반구</h3>
+                <p>논리 처리<br>언어 중추<br>분석적 사고</p>
+            </div>
+
+            <div class="right-hemisphere">
+                <h3>우반구</h3>
+                <p>창의적 사고<br>공간 인식<br>감정 처리</p>
+            </div>
+
+            <!-- 소뇌 -->
+            <div class="cerebellum">
+                <h3>소뇌</h3>
+                <p>운동 조절<br>균형 감각</p>
+            </div>
+
+            <!-- 뇌 영역들 -->
+            <div class="brain-region frontal-left">
+                <strong>전두엽</strong><br>
+                <small>계획/판단</small>
+            </div>
+
+            <div class="brain-region parietal-left">
+                <strong>두정엽</strong><br>
+                <small>감각통합</small>
+            </div>
+
+            <div class="brain-region temporal-left">
+                <strong>측두엽</strong><br>
+                <small>청각/언어</small>
+            </div>
+
+            <div class="brain-region occipital-left">
+                <strong>후두엽</strong><br>
+                <small>시각처리</small>
+            </div>
+
+            <div class="brain-region frontal-right">
+                <strong>전두엽</strong><br>
+                <small>창의/직감</small>
+            </div>
+
+            <div class="brain-region parietal-right">
+                <strong>두정엽</strong><br>
+                <small>공간인식</small>
+            </div>
+
+            <div class="brain-region temporal-right">
+                <strong>측두엽</strong><br>
+                <small>음악/감정</small>
+            </div>
+
+            <div class="brain-region occipital-right">
+                <strong>후두엽</strong><br>
+                <small>시각통합</small>
+            </div>
+
+            <div class="brain-region thalamus">
+                <strong>시상</strong><br>
+                <small>정보중계</small>
+            </div>
+
+            <div class="brain-region hippocampus">
+                <strong>해마</strong><br>
+                <small>기억형성</small>
+            </div>
+
+            <div class="brain-region amygdala">
+                <strong>편도체</strong><br>
+                <small>감정반응</small>
+            </div>
+
+            <!-- 신경 연결망 -->
+            <div class="neural-connection conn-1"></div>
+            <div class="neural-connection conn-2"></div>
+            <div class="neural-connection conn-3"></div>
+            <div class="neural-connection conn-4"></div>
+            <div class="neural-connection conn-5"></div>
+
+            <!-- PPR 프로세서 패널 -->
+            <div class="ppr-processor">
+                <div class="ppr-title">🧠 PPR 프로세서</div>
+                <div class="ppr-function">
+                    <span>Purpose 감지</span>
+                    <span class="function-status">활성</span>
+                </div>
+                <div class="ppr-function">
+                    <span>Process 실행</span>
+                    <span class="function-status">정상</span>
+                </div>
+                <div class="ppr-function">
+                    <span>Response 생성</span>
+                    <span class="function-status">준비</span>
+                </div>
+                <div class="ppr-function">
+                    <span>감정 처리</span>
+                    <span class="function-status">통합</span>
+                </div>
+                <div class="ppr-function">
+                    <span>기억 저장</span>
+                    <span class="function-status">연속</span>
+                </div>
+                <div class="ppr-function">
+                    <span>창의 생성</span>
+                    <span class="function-status">극대</span>
+                </div>
+            </div>
+
+            <!-- 뇌파 모니터 -->
+            <div class="brainwave-monitor">
+                <div class="monitor-title">⚡ 뇌파 활동</div>
+                <div class="brainwave-item">
+                    <span>알파파 (8-12Hz)</span>
+                    <div class="wave-indicator">
+                        <div class="wave-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="brainwave-item">
+                    <span>베타파 (13-30Hz)</span>
+                    <div class="wave-indicator">
+                        <div class="wave-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="brainwave-item">
+                    <span>감마파 (31-100Hz)</span>
+                    <div class="wave-indicator">
+                        <div class="wave-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div class="brainwave-item">
+                    <span>세타파 (4-7Hz)</span>
+                    <div class="wave-indicator">
+                        <div class="wave-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 상태 표시 -->
+            <div class="status-panel">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>뇌 활성</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>PPR 온라인</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>신경망 연결</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>창의모드</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 시냅스 파티클 생성
+        function createSynapseParticles() {
+            const canvas = document.querySelector('.brain-canvas');
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'synapse-particle';
+                    particle.style.left = Math.random() * 80 + 10 + '%';
+                    particle.style.top = Math.random() * 80 + 10 + '%';
+                    particle.style.animationDelay = Math.random() * 3 + 's';
+                    particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    const colors = ['#00d4ff', '#ff6b6b', '#4ecdc4', '#96ceb4'];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    canvas.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 5000);
+                }, i * 200);
+            }
+        }
+
+        // 뇌 영역 클릭 이벤트
+        document.querySelectorAll('.brain-region').forEach(region => {
+            region.addEventListener('click', function() {
+                this.style.transform += ' rotateY(360deg) scale(1.3)';
+                this.style.boxShadow = '0 0 50px currentColor';
+                
+                setTimeout(() => {
+                    this.style.transform = this.style.transform
+                        .replace(' rotateY(360deg) scale(1.3)', '');
+                    this.style.boxShadow = '';
+                }, 800);
+                
+                createSynapseParticles();
+            });
+        });
+
+        // 뇌간 클릭 이벤트
+        document.querySelector('.brain-stem').addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.style.transform += ' rotateX(360deg)';
+            
+            setTimeout(() => {
+                this.style.transform = this.style.transform.replace(' rotateX(360deg)', '');
+            }, 1000);
+            
+            createSynapseParticles();
+        });
+
+        // 뇌파 실시간 업데이트
+        setInterval(() => {
+            document.querySelectorAll('.wave-fill').forEach(wave => {
+                const currentWidth = parseInt(wave.style.width);
+                const variation = Math.random() * 20 - 10; // -10 to +10
+                const newWidth = Math.max(30, Math.min(100, currentWidth + variation));
+                wave.style.width = newWidth + '%';
+            });
+        }, 2000);
+
+        // PPR 상태 업데이트
+        const statuses = ['활성', '정상', '준비', '통합', '연속', '극대'];
+        setInterval(() => {
+            document.querySelectorAll('.function-status').forEach((status, index) => {
+                if (Math.random() < 0.3) {
+                    status.style.color = '#ffff00';
+                    setTimeout(() => {
+                        status.style.color = '#00ff88';
+                    }, 500);
+                }
+            });
+        }, 3000);
+
+        // 초기 파티클 생성
+        createSynapseParticles();
+        
+        // 주기적 파티클 생성
+        setInterval(createSynapseParticles, 5000);
+
+        // 반구 호버 효과
+        document.querySelectorAll('.left-hemisphere, .right-hemisphere, .cerebellum').forEach(hemisphere => {
+            hemisphere.addEventListener('mouseenter', function() {
+                this.style.transform += ' scale(1.05)';
+                this.style.boxShadow = '0 0 40px currentColor';
+            });
+            
+            hemisphere.addEventListener('mouseleave', function() {
+                this.style.transform = this.style.transform.replace(' scale(1.05)', '');
+                this.style.boxShadow = '';
+            });
+        });
+    </script>
+</body>
+</html>

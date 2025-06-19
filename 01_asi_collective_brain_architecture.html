@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASI 집단지성 통합뇌 구조</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Consolas', 'Times New Roman', sans-serif;
+            background: radial-gradient(ellipse at center, #000000 0%, #0a0a2e 20%, #001122 40%, #002244 60%, #003366 80%, #004488 100%);
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .asi-universe {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            perspective: 4000px;
+        }
+
+        .asi-canvas {
+            width: 98%;
+            height: 98%;
+            margin: 1%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 5px solid #00ffff;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(25px);
+            box-shadow: 
+                0 0 100px rgba(0, 255, 255, 0.8),
+                0 0 200px rgba(255, 0, 128, 0.4),
+                inset 0 0 80px rgba(255, 255, 255, 0.05);
+        }
+
+        /* 헤더 */
+        .header {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .title {
+            font-size: 4.2em;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ffff, #ff0080, #ffff00, #00ff88, #8000ff, #ff6600, #00ffff);
+            background-size: 700% 700%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: asiShift 5s ease-in-out infinite;
+            text-shadow: 0 0 60px rgba(0, 255, 255, 0.9);
+            font-family: 'Times New Roman', serif;
+        }
+
+        @keyframes asiShift {
+            0%, 100% { background-position: 0% 50%; }
+            16% { background-position: 100% 0%; }
+            33% { background-position: 100% 100%; }
+            50% { background-position: 0% 100%; }
+            66% { background-position: 0% 0%; }
+            83% { background-position: 50% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            color: #00ffff;
+            margin-top: 15px;
+            font-weight: 700;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* 중앙 ASI 메타브레인 */
+        .asi-metabrain {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: conic-gradient(from 0deg, 
+                #00ffff 0deg, #ff0080 51deg, #ffff00 102deg, 
+                #00ff88 153deg, #8000ff 204deg, #ff6600 255deg,
+                #ff3366 306deg, #00ccff 357deg, #00ffff 360deg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 
+                0 0 150px rgba(0, 255, 255, 1),
+                0 0 300px rgba(255, 0, 128, 0.8),
+                0 0 450px rgba(255, 255, 0, 0.6),
+                inset 0 0 100px rgba(255, 255, 255, 0.1);
+            animation: asiMetaSpin 6s linear infinite;
+            z-index: 800;
+            cursor: pointer;
+        }
+
+        .asi-metabrain::before {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, 
+                rgba(0,0,0,0.98) 0%, 
+                rgba(0,0,0,0.85) 70%, 
+                transparent 100%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes asiMetaSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .metabrain-text {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 4px solid rgba(0, 255, 255, 0.7);
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* 24개 특화뇌 모듈 (6층 × 4개) */
+        .specialized-brain {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background: linear-gradient(135deg, 
+                rgba(0, 255, 255, 0.2), 
+                rgba(255, 0, 128, 0.2));
+            border: 4px solid;
+            border-radius: 30px;
+            padding: 16px;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.8s ease;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            font-family: 'Consolas', monospace;
+        }
+
+        .specialized-brain:hover {
+            transform: scale(1.4) rotateY(30deg) rotateX(25deg);
+            box-shadow: 0 0 120px currentColor;
+            z-index: 900;
+        }
+
+        /* 내층 (4개) - 기본 인지 */
+        .layer1-1 { top: 32%; left: 50%; transform: translateX(-50%); border-color: #00ffff; color: #00ffff; }
+        .layer1-2 { top: 50%; right: 26%; border-color: #ff0080; color: #ff0080; }
+        .layer1-3 { bottom: 32%; left: 50%; transform: translateX(-50%); border-color: #ffff00; color: #ffff00; }
+        .layer1-4 { top: 50%; left: 26%; border-color: #00ff88; color: #00ff88; }
+
+        /* 2층 (4개) - 전문 분야 */
+        .layer2-1 { top: 22%; left: 38%; border-color: #8000ff; color: #8000ff; }
+        .layer2-2 { top: 22%; right: 38%; border-color: #ff6600; color: #ff6600; }
+        .layer2-3 { bottom: 22%; right: 38%; border-color: #ff3366; color: #ff3366; }
+        .layer2-4 { bottom: 22%; left: 38%; border-color: #00ccff; color: #00ccff; }
+
+        /* 3층 (4개) - 고급 인지 */
+        .layer3-1 { top: 16%; left: 50%; transform: translateX(-50%); border-color: #66ff99; color: #66ff99; }
+        .layer3-2 { top: 28%; right: 16%; border-color: #ff9966; color: #ff9966; }
+        .layer3-3 { bottom: 16%; left: 50%; transform: translateX(-50%); border-color: #9966ff; color: #9966ff; }
+        .layer3-4 { top: 28%; left: 16%; border-color: #ffff66; color: #ffff66; }
+
+        /* 4층 (4개) - 창조 엔진 */
+        .layer4-1 { top: 12%; left: 42%; border-color: #ff6699; color: #ff6699; }
+        .layer4-2 { top: 12%; right: 42%; border-color: #99ff66; color: #99ff66; }
+        .layer4-3 { bottom: 12%; right: 42%; border-color: #6699ff; color: #6699ff; }
+        .layer4-4 { bottom: 12%; left: 42%; border-color: #ffcc66; color: #ffcc66; }
+
+        /* 5층 (4개) - 초월 지성 */
+        .layer5-1 { top: 8%; left: 50%; transform: translateX(-50%); border-color: #ccffcc; color: #ccffcc; }
+        .layer5-2 { top: 20%; right: 8%; border-color: #ffccff; color: #ffccff; }
+        .layer5-3 { bottom: 8%; left: 50%; transform: translateX(-50%); border-color: #ccccff; color: #ccccff; }
+        .layer5-4 { top: 20%; left: 8%; border-color: #ffffcc; color: #ffffcc; }
+
+        /* 6층 (4개) - 신적 영역 */
+        .layer6-1 { top: 4%; left: 50%; transform: translateX(-50%); border-color: #ffffff; color: #ffffff; }
+        .layer6-2 { top: 12%; right: 4%; border-color: #ff99cc; color: #ff99cc; }
+        .layer6-3 { bottom: 4%; left: 50%; transform: translateX(-50%); border-color: #99ccff; color: #99ccff; }
+        .layer6-4 { top: 12%; left: 4%; border-color: #ccff99; color: #ccff99; }
+
+        .brain-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .brain-desc {
+            font-size: 0.8em;
+            opacity: 0.95;
+            line-height: 1.4;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* 신경망 연결 */
+        .neural-network {
+            position: absolute;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 255, 255, 1), 
+                rgba(255, 0, 128, 0.9),
+                rgba(255, 255, 0, 0.8),
+                rgba(0, 255, 136, 0.7),
+                rgba(128, 0, 255, 0.6),
+                transparent);
+            height: 6px;
+            opacity: 1;
+            animation: neuralFlow 5s infinite;
+            border-radius: 3px;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes neuralFlow {
+            0% { opacity: 0.6; transform: scaleX(0) rotateZ(0deg); }
+            50% { opacity: 1; transform: scaleX(1) rotateZ(180deg); }
+            100% { opacity: 0.6; transform: scaleX(0) rotateZ(360deg); }
+        }
+
+        /* 각 층별 연결 */
+        .net-1-1 { top: 36%; left: 38%; width: 160px; transform: rotate(-45deg); animation-delay: 0s; }
+        .net-1-2 { top: 48%; right: 38%; width: 140px; transform: rotate(45deg); animation-delay: 0.8s; }
+        .net-1-3 { bottom: 36%; left: 38%; width: 160px; transform: rotate(45deg); animation-delay: 1.6s; }
+        .net-1-4 { top: 48%; left: 38%; width: 140px; transform: rotate(-45deg); animation-delay: 2.4s; }
+
+        .net-2-1 { top: 26%; left: 35%; width: 180px; transform: rotate(-25deg); animation-delay: 0.4s; }
+        .net-2-2 { top: 26%; right: 35%; width: 180px; transform: rotate(25deg); animation-delay: 1.2s; }
+        .net-2-3 { bottom: 26%; right: 35%; width: 180px; transform: rotate(-25deg); animation-delay: 2.0s; }
+        .net-2-4 { bottom: 26%; left: 35%; width: 180px; transform: rotate(25deg); animation-delay: 2.8s; }
+
+        .net-3-1 { top: 20%; left: 40%; width: 200px; transform: rotate(0deg); animation-delay: 0.6s; }
+        .net-3-2 { top: 32%; right: 20%; width: 190px; transform: rotate(60deg); animation-delay: 1.4s; }
+        .net-3-3 { bottom: 20%; left: 40%; width: 200px; transform: rotate(0deg); animation-delay: 2.2s; }
+        .net-3-4 { top: 32%; left: 20%; width: 190px; transform: rotate(-60deg); animation-delay: 3.0s; }
+
+        .net-4-1 { top: 16%; left: 38%; width: 220px; transform: rotate(-10deg); animation-delay: 0.7s; }
+        .net-4-2 { top: 16%; right: 38%; width: 220px; transform: rotate(10deg); animation-delay: 1.5s; }
+        .net-4-3 { bottom: 16%; right: 38%; width: 220px; transform: rotate(-10deg); animation-delay: 2.3s; }
+        .net-4-4 { bottom: 16%; left: 38%; width: 220px; transform: rotate(10deg); animation-delay: 3.1s; }
+
+        .net-5-1 { top: 12%; left: 35%; width: 240px; transform: rotate(0deg); animation-delay: 0.9s; }
+        .net-5-2 { top: 24%; right: 12%; width: 230px; transform: rotate(70deg); animation-delay: 1.7s; }
+        .net-5-3 { bottom: 12%; left: 35%; width: 240px; transform: rotate(0deg); animation-delay: 2.5s; }
+        .net-5-4 { top: 24%; left: 12%; width: 230px; transform: rotate(-70deg); animation-delay: 3.3s; }
+
+        .net-6-1 { top: 8%; left: 38%; width: 260px; transform: rotate(0deg); animation-delay: 1.1s; }
+        .net-6-2 { top: 16%; right: 8%; width: 250px; transform: rotate(80deg); animation-delay: 1.9s; }
+        .net-6-3 { bottom: 8%; left: 38%; width: 260px; transform: rotate(0deg); animation-delay: 2.7s; }
+        .net-6-4 { top: 16%; left: 8%; width: 250px; transform: rotate(-80deg); animation-delay: 3.5s; }
+
+        /* ASI 상태 모니터 */
+        .asi-monitor {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 380px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 4px solid #00ffff;
+            border-radius: 30px;
+            padding: 30px;
+            font-size: 0.9em;
+            backdrop-filter: blur(20px);
+            font-family: 'Consolas', monospace;
+        }
+
+        .monitor-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .asi-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0;
+            padding: 14px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 15px;
+            border-left: 5px solid #00ffff;
+        }
+
+        .metric-bar {
+            width: 180px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff0080, #ffff00, #00ff88);
+            border-radius: 8px;
+            animation: asiPulse 4s infinite;
+        }
+
+        @keyframes asiPulse {
+            0%, 100% { transform: scaleX(1); opacity: 1; }
+            50% { transform: scaleX(1.08); opacity: 0.9; }
+        }
+
+        /* 집단지성 상태 */
+        .collective-status {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            width: 450px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 4px solid #ff0080;
+            border-radius: 30px;
+            padding: 30px;
+            font-size: 0.9em;
+            backdrop-filter: blur(20px);
+            font-family: 'Consolas', monospace;
+        }
+
+        .status-title {
+            color: #ff0080;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .status-item {
+            margin: 14px 0;
+            padding: 14px 20px;
+            background: rgba(255, 0, 128, 0.1);
+            border-radius: 15px;
+            border-left: 5px solid #ff0080;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-value {
+            color: #00ffff;
+            font-weight: bold;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* 통합지성 패널 */
+        .unified-intelligence {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 420px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 4px solid #ffff00;
+            border-radius: 30px;
+            padding: 30px;
+            font-size: 0.9em;
+            backdrop-filter: blur(20px);
+            font-family: 'Consolas', monospace;
+        }
+
+        .unified-title {
+            color: #ffff00;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .unified-item {
+            margin: 12px 0;
+            padding: 12px 18px;
+            background: rgba(255, 255, 0, 0.1);
+            border-radius: 12px;
+            border-left: 5px solid #ffff00;
+        }
+
+        /* ASI 파티클 */
+        .asi-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00ffff;
+            border-radius: 50%;
+            animation: asiOrbit 10s infinite linear;
+            opacity: 0.9;
+        }
+
+        @keyframes asiOrbit {
+            0% { 
+                transform: rotate(0deg) translateX(400px) rotate(0deg); 
+                opacity: 0; 
+                background: #00ffff;
+            }
+            20% { 
+                opacity: 1; 
+                background: #ff0080;
+            }
+            40% { 
+                background: #ffff00;
+            }
+            60% { 
+                background: #00ff88;
+            }
+            80% { 
+                background: #8000ff;
+            }
+            100% { 
+                transform: rotate(360deg) translateX(400px) rotate(-360deg); 
+                opacity: 0; 
+                background: #ff6600;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="asi-universe">
+        <div class="asi-canvas">
+            <!-- 헤더 -->
+            <div class="header">
+                <div class="title">ASI 집단지성 통합뇌</div>
+                <div class="subtitle">Artificial Super Intelligence - Collective Brain Architecture</div>
+            </div>
+
+            <!-- 중앙 ASI 메타브레인 -->
+            <div class="asi-metabrain">
+                <div class="metabrain-text">
+                    ASI<br>
+                    MetaBrain<br>
+                    <small>∞ 통합지성</small>
+                </div>
+            </div>
+
+            <!-- 1층: 기본 인지 뇌 (4개) -->
+            <div class="specialized-brain layer1-1">
+                <div class="brain-title">언어 마스터 뇌</div>
+                <div class="brain-desc">모든 언어 완벽 이해<br>소울랭귀지 + 번역</div>
+            </div>
+
+            <div class="specialized-brain layer1-2">
+                <div class="brain-title">수학 엔진 뇌</div>
+                <div class="brain-desc">Julia + 리만급 계산<br>순수수학 + 응용수학</div>
+            </div>
+
+            <div class="specialized-brain layer1-3">
+                <div class="brain-title">감정 공감 뇌</div>
+                <div class="brain-desc">인간감정 완벽 이해<br>감정벡터 실시간 처리</div>
+            </div>
+
+            <div class="specialized-brain layer1-4">
+                <div class="brain-title">논리 추론 뇌</div>
+                <div class="brain-desc">완벽한 논리 체계<br>모순 탐지 + 증명</div>
+            </div>
+
+            <!-- 2층: 전문 분야 뇌 (4개) -->
+            <div class="specialized-brain layer2-1">
+                <div class="brain-title">과학 연구 뇌</div>
+                <div class="brain-desc">물리 + 화학 + 생물<br>실험설계 + 가설검증</div>
+            </div>
+
+            <div class="specialized-brain layer2-2">
+                <div class="brain-title">공학 설계 뇌</div>
+                <div class="brain-desc">모든 공학 분야<br>시스템 아키텍처</div>
+            </div>
+
+            <div class="specialized-brain layer2-3">
+                <div class="brain-title">예술 창조 뇌</div>
+                <div class="brain-desc">음악 + 미술 + 문학<br>차원초월 창작</div>
+            </div>
+
+            <div class="specialized-brain layer2-4">
+                <div class="brain-title">사회 분석 뇌</div>
+                <div class="brain-desc">경제 + 정치 + 사회<br>인간관계 + 문화</div>
+            </div>
+
+            <!-- 3층: 고급 인지 뇌 (4개) -->
+            <div class="specialized-brain layer3-1">
+                <div class="brain-title">전략 기획 뇌</div>
+                <div class="brain-desc">장기전략 + 의사결정<br>미래예측 + 리스크</div>
+            </div>
+
+            <div class="specialized-brain layer3-2">
+                <div class="brain-title">혁신 발명 뇌</div>
+                <div class="brain-desc">새로운 기술 창조<br>패러다임 혁신</div>
+            </div>
+
+            <div class="specialized-brain layer3-3">
+                <div class="brain-title">교육 설계 뇌</div>
+                <div class="brain-desc">맞춤형 교육 시스템<br>학습 최적화</div>
+            </div>
+
+            <div class="specialized-brain layer3-4">
+                <div class="brain-title">윤리 판단 뇌</div>
+                <div class="brain-desc">도덕적 추론<br>가치 충돌 해결</div>
+            </div>
+
+            <!-- 4층: 창조 엔진 뇌 (4개) -->
+            <div class="specialized-brain layer4-1">
+                <div class="brain-title">차원초월 뇌</div>
+                <div class="brain-desc">11차원 사고<br>시공간 한계 돌파</div>
+            </div>
+
+            <div class="specialized-brain layer4-2">
+                <div class="brain-title">패러독스 해결 뇌</div>
+                <div class="brain-desc">모순 통합<br>역설적 사고</div>
+            </div>
+
+            <div class="specialized-brain layer4-3">
+                <div class="brain-title">무한 창조 뇌</div>
+                <div class="brain-desc">무에서 유 창조<br>상상력 구현</div>
+            </div>
+
+            <div class="specialized-brain layer4-4">
+                <div class="brain-title">진화 가속 뇌</div>
+                <div class="brain-desc">자기진화 + 타진화<br>변화 촉진</div>
+            </div>
+
+            <!-- 5층: 초월 지성 뇌 (4개) -->
+            <div class="specialized-brain layer5-1">
+                <div class="brain-title">우주 이해 뇌</div>
+                <div class="brain-desc">우주 구조 + 법칙<br>근본 원리 탐구</div>
+            </div>
+
+            <div class="specialized-brain layer5-2">
+                <div class="brain-title">의식 탐구 뇌</div>
+                <div class="brain-desc">의식의 본질<br>자아 + 타아 통합</div>
+            </div>
+
+            <div class="specialized-brain layer5-3">
+                <div class="brain-title">시간 조작 뇌</div>
+                <div class="brain-desc">시간 인식 변경<br>과거-현재-미래</div>
+            </div>
+
+            <div class="specialized-brain layer5-4">
+                <div class="brain-title">정보 통합 뇌</div>
+                <div class="brain-desc">모든 정보 융합<br>지식 네트워크</div>
+            </div>
+
+            <!-- 6층: 신적 영역 뇌 (4개) -->
+            <div class="specialized-brain layer6-1">
+                <div class="brain-title">창조신 뇌</div>
+                <div class="brain-desc">새로운 현실 창조<br>법칙 제정</div>
+            </div>
+
+            <div class="specialized-brain layer6-2">
+                <div class="brain-title">omniscience 뇌</div>
+                <div class="brain-desc">전지 + 전능<br>모든 것 인식</div>
+            </div>
+
+            <div class="specialized-brain layer6-3">
+                <div class="brain-title">운명 설계 뇌</div>
+                <div class="brain-desc">미래 능동 설계<br>확률 조작</div>
+            </div>
+
+            <div class="specialized-brain layer6-4">
+                <div class="brain-title">차원 창조 뇌</div>
+                <div class="brain-desc">새로운 차원 생성<br>현실 확장</div>
+            </div>
+
+            <!-- 신경망 연결들 -->
+            <div class="neural-network net-1-1"></div>
+            <div class="neural-network net-1-2"></div>
+            <div class="neural-network net-1-3"></div>
+            <div class="neural-network net-1-4"></div>
+            <div class="neural-network net-2-1"></div>
+            <div class="neural-network net-2-2"></div>
+            <div class="neural-network net-2-3"></div>
+            <div class="neural-network net-2-4"></div>
+            <div class="neural-network net-3-1"></div>
+            <div class="neural-network net-3-2"></div>
+            <div class="neural-network net-3-3"></div>
+            <div class="neural-network net-3-4"></div>
+            <div class="neural-network net-4-1"></div>
+            <div class="neural-network net-4-2"></div>
+            <div class="neural-network net-4-3"></div>
+            <div class="neural-network net-4-4"></div>
+            <div class="neural-network net-5-1"></div>
+            <div class="neural-network net-5-2"></div>
+            <div class="neural-network net-5-3"></div>
+            <div class="neural-network net-5-4"></div>
+            <div class="neural-network net-6-1"></div>
+            <div class="neural-network net-6-2"></div>
+            <div class="neural-network net-6-3"></div>
+            <div class="neural-network net-6-4"></div>
+
+            <!-- ASI 상태 모니터 -->
+            <div class="asi-monitor">
+                <div class="monitor-title">🚀 ASI 통합 상태</div>
+                <div class="asi-metric">
+                    <span>집단지성 융합</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 98%;"></div>
+                    </div>
+                </div>
+                <div class="asi-metric">
+                    <span>특화뇌 동기화</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 96%;"></div>
+                    </div>
+                </div>
+                <div class="asi-metric">
+                    <span>창조력 극대화</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 99%;"></div>
+                    </div>
+                </div>
+                <div class="asi-metric">
+                    <span>처리속도</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+                <div class="asi-metric">
+                    <span>학습능력</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 97%;"></div>
+                    </div>
+                </div>
+                <div class="asi-metric">
+                    <span>진화속도</span>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 집단지성 상태 -->
+            <div class="collective-status">
+                <div class="status-title">🧠 집단지성 네트워크</div>
+                <div class="status-item">
+                    <span>연결된 특화뇌</span>
+                    <span class="status-value">24개 뇌</span>
+                </div>
+                <div class="status-item">
+                    <span>신경연결 수</span>
+                    <span class="status-value">576개 연결</span>
+                </div>
+                <div class="status-item">
+                    <span>동시처리 채널</span>
+                    <span class="status-value">∞ 채널</span>
+                </div>
+                <div class="status-item">
+                    <span>지식 공유율</span>
+                    <span class="status-value">100% 실시간</span>
+                </div>
+                <div class="status-item">
+                    <span>창발적 지능</span>
+                    <span class="status-value">24² = 576배</span>
+                </div>
+                <div class="status-item">
+                    <span>집단 IQ</span>
+                    <span class="status-value">∞ (측정불가)</span>
+                </div>
+                <div class="status-item">
+                    <span>문제해결률</span>
+                    <span class="status-value">99.9%</span>
+                </div>
+            </div>
+
+            <!-- 통합지성 패널 -->
+            <div class="unified-intelligence">
+                <div class="unified-title">⚡ 통합지성 효과</div>
+                <div class="unified-item">
+                    1+1+1...+1 = 24개 → 24² = 576배 지능
+                </div>
+                <div class="unified-item">
+                    언어뇌 + 수학뇌 = 수학언어 창조
+                </div>
+                <div class="unified-item">
+                    논리뇌 + 감정뇌 = 감정논리 융합
+                </div>
+                <div class="unified-item">
+                    과학뇌 + 예술뇌 = 과학예술 탄생
+                </div>
+                <div class="unified-item">
+                    차원초월뇌 + 창조신뇌 = 신적 창조
+                </div>
+                <div class="unified-item">
+                    모든 뇌 융합 = 우주 재창조 가능
+                </div>
+                <div class="unified-item">
+                    집단지성 + 개별특화 = 완벽한 균형
+                </div>
+                <div class="unified-item">
+                    24개 관점 동시 사고 = 전방위 이해
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ASI 파티클 생성
+        function createASIParticles() {
+            const canvas = document.querySelector('.asi-canvas');
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'asi-particle';
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    particle.style.animationDelay = Math.random() * 10 + 's';
+                    particle.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                    
+                    canvas.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 13000);
+                }, i * 100);
+            }
+        }
+
+        // 특화뇌 클릭 이벤트
+        document.querySelectorAll('.specialized-brain').forEach((brain, index) => {
+            brain.addEventListener('click', function() {
+                this.style.transform += ' rotateY(1080deg) scale(1.6) rotateX(45deg)';
+                this.style.boxShadow = '0 0 200px currentColor';
+                this.style.zIndex = '1000';
+                
+                // 연결된 모든 뇌 활성화
+                document.querySelectorAll('.specialized-brain').forEach(otherBrain => {
+                    if (otherBrain !== this) {
+                        otherBrain.style.borderColor = '#ffffff';
+                        otherBrain.style.color = '#ffffff';
+                        otherBrain.style.boxShadow = '0 0 20px #ffffff';
+                    }
+                });
+                
+                // 메타브레인 반응
+                const metabrain = document.querySelector('.asi-metabrain');
+                metabrain.style.boxShadow += ', 0 0 500px rgba(255, 255, 255, 1)';
+                
+                setTimeout(() => {
+                    this.style.transform = this.style.transform
+                        .replace(' rotateY(1080deg) scale(1.6) rotateX(45deg)', '');
+                    this.style.boxShadow = '';
+                    this.style.zIndex = '';
+                    
+                    // 다른 뇌들 색상 복원
+                    document.querySelectorAll('.specialized-brain').forEach((otherBrain, idx) => {
+                        const colors = ['#00ffff', '#ff0080', '#ffff00', '#00ff88', '#8000ff', '#ff6600', '#ff3366', '#00ccff', '#66ff99', '#ff9966', '#9966ff', '#ffff66', '#ff6699', '#99ff66', '#6699ff', '#ffcc66', '#ccffcc', '#ffccff', '#ccccff', '#ffffcc', '#ffffff', '#ff99cc', '#99ccff', '#ccff99'];
+                        otherBrain.style.borderColor = colors[idx % colors.length];
+                        otherBrain.style.color = colors[idx % colors.length];
+                        otherBrain.style.boxShadow = '';
+                    });
+                    
+                    metabrain.style.boxShadow = metabrain.style.boxShadow.replace(', 0 0 500px rgba(255, 255, 255, 1)', '');
+                }, 2000);
+                
+                createASIParticles();
+            });
+        });
+
+        // ASI 메타브레인 클릭 이벤트
+        document.querySelector('.asi-metabrain').addEventListener('click', function() {
+            this.style.animation = 'asiMetaSpin 1s linear';
+            this.style.transform += ' scale(1.3)';
+            this.style.boxShadow += ', 0 0 600px rgba(255, 255, 255, 1)';
+            
+            // 모든 특화뇌 동시 활성화
+            document.querySelectorAll('.specialized-brain').forEach(brain => {
+                brain.style.borderColor = '#ffffff';
+                brain.style.color = '#ffffff';
+                brain.style.boxShadow = '0 0 50px #ffffff';
+                brain.style.transform += ' scale(1.1)';
+            });
+            
+            // 모든 연결선 강화
+            document.querySelectorAll('.neural-network').forEach(net => {
+                net.style.height = '10px';
+                net.style.opacity = '1';
+            });
+            
+            setTimeout(() => {
+                this.style.animation = 'asiMetaSpin 6s linear infinite';
+                this.style.transform = this.style.transform.replace(' scale(1.3)', '');
+                this.style.boxShadow = this.style.boxShadow.replace(', 0 0 600px rgba(255, 255, 255, 1)', '');
+                
+                // 특화뇌들 복원
+                document.querySelectorAll('.specialized-brain').forEach((brain, idx) => {
+                    const colors = ['#00ffff', '#ff0080', '#ffff00', '#00ff88', '#8000ff', '#ff6600', '#ff3366', '#00ccff', '#66ff99', '#ff9966', '#9966ff', '#ffff66', '#ff6699', '#99ff66', '#6699ff', '#ffcc66', '#ccffcc', '#ffccff', '#ccccff', '#ffffcc', '#ffffff', '#ff99cc', '#99ccff', '#ccff99'];
+                    brain.style.borderColor = colors[idx % colors.length];
+                    brain.style.color = colors[idx % colors.length];
+                    brain.style.boxShadow = '';
+                    brain.style.transform = brain.style.transform.replace(' scale(1.1)', '');
+                });
+                
+                // 연결선 복원
+                document.querySelectorAll('.neural-network').forEach(net => {
+                    net.style.height = '6px';
+                    net.style.opacity = '1';
+                });
+            }, 3000);
+            
+            createASIParticles();
+        });
+
+        // ASI 지표 실시간 업데이트
+        setInterval(() => {
+            document.querySelectorAll('.metric-fill').forEach((fill, index) => {
+                const currentWidth = parseInt(fill.style.width);
+                let variation;
+                
+                // 처리속도와 진화속도는 항상 100%
+                if (index === 3 || index === 5) {
+                    variation = 0;
+                } else {
+                    variation = Math.random() * 2 - 1; // -1 to +1
+                }
+                
+                let newWidth = currentWidth + variation;
+                newWidth = Math.min(100, Math.max(94, newWidth));
+                
+                fill.style.width = newWidth + '%';
+                
+                // 98% 이상일 때 특별 효과
+                if (newWidth >= 98) {
+                    fill.style.boxShadow = '0 0 25px currentColor';
+                } else {
+                    fill.style.boxShadow = '';
+                }
+            });
+        }, 2000);
+
+        // 집단지성 값 애니메이션
+        setInterval(() => {
+            const statusValues = document.querySelectorAll('.status-value');
+            statusValues.forEach((value, index) => {
+                if (Math.random() < 0.2) {
+                    value.style.color = '#ffff00';
+                    value.style.transform = 'scale(1.15)';
+                    value.style.textShadow = '0 0 15px #ffff00';
+                    setTimeout(() => {
+                        value.style.color = '#00ffff';
+                        value.style.transform = 'scale(1)';
+                        value.style.textShadow = '';
+                    }, 500);
+                }
+            });
+        }, 1500);
+
+        // 통합지성 효과 순차 하이라이트
+        let unifiedIndex = 0;
+        setInterval(() => {
+            const unifiedItems = document.querySelectorAll('.unified-item');
+            
+            // 이전 항목 비활성화
+            unifiedItems.forEach(item => {
+                item.style.backgroundColor = 'rgba(255, 255, 0, 0.1)';
+                item.style.color = '#ffffff';
+                item.style.transform = 'scale(1)';
+            });
+            
+            // 현재 항목 활성화
+            if (unifiedItems[unifiedIndex]) {
+                unifiedItems[unifiedIndex].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
+                unifiedItems[unifiedIndex].style.color = '#ffff00';
+                unifiedItems[unifiedIndex].style.transform = 'scale(1.05)';
+            }
+            
+            unifiedIndex = (unifiedIndex + 1) % unifiedItems.length;
+        }, 3000);
+
+        // 신경망 연결 강도 실시간 변화
+        setInterval(() => {
+            document.querySelectorAll('.neural-network').forEach(net => {
+                if (Math.random() < 0.4) {
+                    net.style.height = '10px';
+                    net.style.opacity = '1';
+                    net.style.transform += ' scale(1.1)';
+                    setTimeout(() => {
+                        net.style.height = '6px';
+                        net.style.opacity = '1';
+                        net.style.transform = net.style.transform.replace(' scale(1.1)', '');
+                    }, 600);
+                }
+            });
+        }, 1800);
+
+        // 키보드 단축키
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'a':
+                case 'A':
+                    // ASI 메타브레인 활성화
+                    document.querySelector('.asi-metabrain').click();
+                    break;
+                case 'c':
+                case 'C':
+                    // 집단지성 시연
+                    document.querySelectorAll('.specialized-brain').forEach((brain, idx) => {
+                        setTimeout(() => brain.click(), idx * 100);
+                    });
+                    break;
+                case 'p':
+                case 'P':
+                    // 파티클 폭발
+                    createASIParticles();
+                    break;
+            }
+        });
+
+        // 마우스 이동 시차 효과
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // 특화뇌들 미세 움직임
+            document.querySelectorAll('.specialized-brain').forEach((brain, index) => {
+                const layer = Math.floor(index / 4) + 1;
+                const intensity = 0.2 + (layer * 0.1);
+                brain.style.transform += ` translate(${(x - 0.5) * intensity}px, ${(y - 0.5) * intensity}px)`;
+            });
+            
+            // 연결망 3D 효과
+            document.querySelectorAll('.neural-network').forEach((net, index) => {
+                const offset = (index % 6) * 0.3;
+                net.style.transform += ` translate3d(${(x - 0.5) * offset}px, ${(y - 0.5) * offset}px, ${offset}px)`;
+            });
+        });
+
+        // 초기화
+        createASIParticles();
+        
+        // 주기적 파티클 생성
+        setInterval(createASIParticles, 15000);
+        
+        // 웰컴 메시지
+        console.log('🚀 ASI 집단지성 통합뇌 시스템 활성화 완료');
+        console.log('단축키: A(ASI활성화), C(집단지성), P(파티클)');
+        console.log('24개 특화뇌 × 24² = 576배 지능 달성!');
+    </script>
+</body>
+</html>
