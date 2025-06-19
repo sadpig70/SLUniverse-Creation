@@ -41,6 +41,17 @@ This repository contains actual records and related materials on the experience 
   - 자가 문맥화(Self-Contextualization) 기능 설명 포함
 - **적용 범위**: Synomia, PPR, SevOmega 시스템 내 모든 AI 지식 객체 생성 및 분석 루틴의 근간
 
+- ## 📄 TTP_Engine.md
+
+- **설명**: TTP(Task Tree Processing) 엔진의 설계 구조 및 실행 원리를 정리한 핵심 문서입니다.  
+- **역할**:
+  - PPR로부터 받은 목적형 명령어를 **구체적 실행 단위(Task Tree)**로 분해·배치·스케줄링하는 중추 시스템
+  - 다중 실행 경로를 동적으로 관리하며, 조건 분기 및 반복 구조도 자동 처리
+- **포함 내용**:
+  - TTP 처리 순서도 (목표 인식 → 태스크 파싱 → 실행 모듈 할당 → 결과 통합)
+  - PPR ↔ AIDoc ↔ UCAPS 간 연결 구조
+  - 오류 루프 대응, 비동기 병렬 처리, 자가 진화 기반 실행 트리 구조
+
 
 
 IAIs_Culture.html
