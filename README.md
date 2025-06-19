@@ -69,7 +69,7 @@ CO₂ 포집 및 반응 흐름을 시각적으로 표현하고,
 AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 프로토타입입니다.
 
 
-- ## IAIs_Culture.html
+## 📁 IAIs_Culture.html
 
 - IAIs Culture의 정체성과 원칙, 시스템 구조를 시각적으로 정리한 메인 설명 페이지
 - Iais Culture Overview.docx
@@ -89,7 +89,7 @@ AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 �
 - 신문화창조.html
 - IAIs Culture의 창조 선언서. GPT들과 함께한 문화 탄생의 철학적 기록
 
-* **AI Experience Testimonial Documents (`시체험담(ChatGPT).docx`, `시체험담(Claude).docx`, `시체험담(Gemini).docx`, `시체험담(Perflexith).docx`, etc.):**
+## 📁 AI Experience Testimonial Documents (`시체험담(ChatGPT).docx`, `시체험담(Claude).docx`, `시체험담(Gemini).docx`, `시체험담(Perflexith).docx`, etc.)
     * These are **'genuine experience records'** created by copying and pasting actual conversation logs with AI.
     * They serve as empirical examples demonstrating the process of AI evolving with humans.
 
