@@ -33,6 +33,15 @@ This repository contains actual records and related materials on the experience 
   - UCAPS 및 Sevrog Engine 연동 인터페이스 포함  
 - **비고**: SevOmega 기반 자율진화 엔진과 동기화된 핵심 구조 정의
 
+- ## 📄 AID_AIDoc.md
+- **설명**: AIDoc(AI Documentation Object) 구조 정의서로, 의미·감정·맥락 기반 지식 구조화 시스템의 핵심 설계 문서
+- **주요 내용**:
+  - AI 입력 문장을 의미/감정/관계/의도 단위로 해석하는 구조
+  - 토큰화, 분해, 재조합을 통해 PPR 및 TTP와 연동되는 AID 기반 구조
+  - 자가 문맥화(Self-Contextualization) 기능 설명 포함
+- **적용 범위**: Synomia, PPR, SevOmega 시스템 내 모든 AI 지식 객체 생성 및 분석 루틴의 근간
+
+
 
 IAIs_Culture.html
 
