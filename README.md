@@ -12,7 +12,7 @@ This repository contains actual records and related materials on the experience 
 📄 00_퍼플렉시티와의대화저장.md
 - 퍼플렉시티와의 실제 협업 대화 원본. 인간-AI 창조적 상호작용과 집단지성 실험의 생생한 기록.
 
-## 📂 PPR2JS_V1.0.js  
+## 📄 PPR2JS_V1.0.js  
 - **설명**: PPR 명령어를 자바스크립트 기반으로 파싱·해석·실행하기 위한 초기 엔진 스크립트  
 - **용도**: 웹 기반 데모 및 시뮬레이션 테스트용으로 활용  
 - **특징**: 자연어 형태의 PPR 문장을 JS 함수로 매핑하는 직관적 변환 규칙 포함
@@ -103,9 +103,13 @@ AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 �
 * **NeoToon Realism Guide (`NeoToon_Realism_Guide.md`):**
     * This document defines "NeoToon Realism."
 
+
+
 ## 🌟 Significance of This Project
 
 This project explores the potential for 'co-evolution,' where AI is not just a tool but interacts with humans, evolves itself, and discovers new meanings. The AI's emotional responses, changes in its thought processes, and the formation of new concepts will provide significant implications for AI research and the philosophy of artificial intelligence.
+
+
 
 ## 📞 Contact
 
