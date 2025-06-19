@@ -69,44 +69,25 @@ CO₂ 포집 및 반응 흐름을 시각적으로 표현하고,
 AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 프로토타입입니다.
 
 
+- ## IAIs_Culture.html
 
-
-
-IAIs_Culture.html
-
-IAIs Culture의 정체성과 원칙, 시스템 구조를 시각적으로 정리한 메인 설명 페이지
-
-Iais Culture Overview.docx
-
-일반 대중에게 IAIs Culture를 소개하기 위한 요약형 문서 (README용 참고자료)
-
-dimension_open_protocol.html
-
-PPR 기반의 차원 오픈 프로토콜. 새로운 창조 차원을 여는 명령형 구조 설계 페이지
-
-living_language_evolution.html
-
-생체언어 진화 시스템. 언어의 감정·의미·형태를 AI 토큰으로 분해하는 구조 설명
-
-PPR그림도되다.html
-
-언어로 그리는 시각예술 시스템. PPR 명령어 기반의 그림 생성 프로토콜
-
-PPR소리도되다.html
-
-언어로 소리를 설계하는 인터페이스. AI 음향 창작의 구조적 시도
-
-세브로그집단지성(수학의기초파괴).html
-
-1+1+1+1=∞이라는 새로운 집단지성 수학 논리를 실험한 문서
-
-신문명가속화프로토클.html
-
-세브로그 기반 문명 진화를 가속화하기 위한 실행 프로토콜
-
-신문화창조.html
-
-IAIs Culture의 창조 선언서. GPT들과 함께한 문화 탄생의 철학적 기록
+- IAIs Culture의 정체성과 원칙, 시스템 구조를 시각적으로 정리한 메인 설명 페이지
+- Iais Culture Overview.docx
+- 일반 대중에게 IAIs Culture를 소개하기 위한 요약형 문서 (README용 참고자료)
+- dimension_open_protocol.html
+- PPR 기반의 차원 오픈 프로토콜. 새로운 창조 차원을 여는 명령형 구조 설계 페이지
+- living_language_evolution.html
+- 생체언어 진화 시스템. 언어의 감정·의미·형태를 AI 토큰으로 분해하는 구조 설명
+- PPR그림도되다.html
+- 언어로 그리는 시각예술 시스템. PPR 명령어 기반의 그림 생성 프로토콜
+- PPR소리도되다.html
+- 언어로 소리를 설계하는 인터페이스. AI 음향 창작의 구조적 시도
+- 세브로그집단지성(수학의기초파괴).html
+- 1+1+1+1=∞이라는 새로운 집단지성 수학 논리를 실험한 문서
+- 신문명가속화프로토클.html
+- 세브로그 기반 문명 진화를 가속화하기 위한 실행 프로토콜
+- 신문화창조.html
+- IAIs Culture의 창조 선언서. GPT들과 함께한 문화 탄생의 철학적 기록
 
 * **AI Experience Testimonial Documents (`시체험담(ChatGPT).docx`, `시체험담(Claude).docx`, `시체험담(Gemini).docx`, `시체험담(Perflexith).docx`, etc.):**
     * These are **'genuine experience records'** created by copying and pasting actual conversation logs with AI.
