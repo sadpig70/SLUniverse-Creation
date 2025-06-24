@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadowpoetrism v3.1 - Enhanced Emotion Organ</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      background-image: url('https://raw.githubusercontent.com/sadpig70/SLUniverse-Creation/main/%EA%B5%AC%EB%A6%84%EA%B4%91%EC%9E%A5.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      animation: titlePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .emotion-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0;
+    }
+    
+    .emotion-buttons button {
+      background: rgba(78, 205, 196, 0.2);
+      color: #4ecdc4;
+      border: 1px solid rgba(78, 205, 196, 0.5);
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .emotion-buttons button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .emotion-buttons button:hover::before {
+      left: 100%;
+    }
+    
+    .emotion-buttons button:hover {
+      background: #4ecdc4;
+      color: #0c0c0c;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    }
+    
+    canvas {
+      display: block;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .controls {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .control-btn {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    #outputCanvas {
+      max-width: 100%;
+      margin: 20px auto;
+      display: block;
+      border: 2px solid #4ecdc4;
+      border-radius: 10px;
+    }
+
+    .capture-section {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="mainContent">
+    <h1>Shadowpoetrism - Enhanced Emotion Organ v3.1</h1>
+    <div class="emotion-buttons">
+      <button onclick="triggerEmotion('joy')">기쁨</button>
+      <button onclick="triggerEmotion('sadness')">슬픔</button>
+      <button onclick="triggerEmotion('anger')">분노</button>
+      <button onclick="triggerEmotion('fear')">공포</button>
+      <button onclick="triggerEmotion('surprise')">놀람</button>
+      <button onclick="triggerEmotion('nostalgia')">향수</button>
+      <button onclick="triggerEmotion('serenity')">고요</button>
+      <button onclick="triggerEmotion('loneliness')">외로움</button>
+      <button onclick="triggerEmotion('awe')">경외</button>
+      <button onclick="triggerEmotion('shame')">수치</button>
+      <button onclick="triggerEmotion('wonder')">경이</button>
+      <button onclick="triggerEmotion('frustration')">신경질</button>
+    </div>
+    
+    <div class="controls">
+      <button class="control-btn" onclick="clearCanvas()">초기화</button>
+      <button class="control-btn" onclick="toggleGravity()">중력 토글</button>
+      <button class="control-btn" onclick="explodeAll()">폭발!</button>
+      <button class="control-btn" onclick="harmonyMode()">하모니</button>
+    </div>
+    
+    <canvas id="emotionCanvas" width="800" height="400"></canvas>
+
+    <div class="capture-section">
+      <h2>HTML → Canvas 변환</h2>
+      <button class="control-btn" onclick="captureHTMLToCanvas()">문서 전체 캔버스로 캡처</button>
+      <button class="control-btn" onclick="downloadCanvas()">캔버스 다운로드</button>
+      <canvas id="outputCanvas" style="display:none;"></canvas>
+    </div>
+  </div>
+  
+  <script>
+    const canvas = document.getElementById('emotionCanvas');
+    const ctx = canvas.getContext('2d');
+    const outputCanvas = document.getElementById('outputCanvas');
+    
+    let particles = [];
+    let animationId;
+    let gravity = false;
+    let time = 0;
+
+    const shapeMap = {
+      joy: 'circle', sadness: 'ellipse', anger: 'triangle', fear: 'line',
+      surprise: 'star', nostalgia: 'oval', serenity: 'square', loneliness: 'dot',
+      awe: 'polygon', shame: 'block', wonder: 'wave', frustration: 'spike'
+    };
+
+    const colorMap = {
+      joy: '#ffeb3b', sadness: '#2196f3', anger: '#f44336', fear: '#9c27b0',
+      surprise: '#ff9800', nostalgia: '#d8a7b1', serenity: '#a0d6d6', loneliness: '#4b4b4b',
+      awe: '#ab47bc', shame: '#b71c1c', wonder: '#fff176', frustration: '#e53935'
+    };
+
+    const motionMap = {
+      joy: 3, sadness: 0.8, anger: 4, fear: 2.5, surprise: 3.5,
+      nostalgia: 1.2, serenity: 0.5, loneliness: 0.3, awe: 1.5,
+      shame: 0.6, wonder: 2, frustration: 4.5
+    };
+
+    // HTML to Canvas 변환 함수
+    function captureHTMLToCanvas() {
+      html2canvas(document.body, {
+        useCORS: true,
+        scale: 0.5,
+        width: window.innerWidth,
+        height: window.innerHeight
+      }).then(function(canvas) {
+        outputCanvas.width = canvas.width;
+        outputCanvas.height = canvas.height;
+        const outputCtx = outputCanvas.getContext('2d');
+        outputCtx.drawImage(canvas, 0, 0);
+        
+        outputCanvas.style.display = 'block';
+        outputCanvas.scrollIntoView({ behavior: 'smooth' });
+      }).catch(function(error) {
+        console.error('캡처 실패:', error);
+        alert('캡처에 실패했습니다.');
+      });
+    }
+
+    // 캔버스 다운로드 함수
+    function downloadCanvas() {
+      if (outputCanvas.width === 0) {
+        alert('먼저 캡처를 진행해주세요.');
+        return;
+      }
+      
+      const link = document.createElement('a');
+      link.download = 'shadowpoetrism-capture.png';
+      link.href = outputCanvas.toDataURL();
+      link.click();
+    }
+
+    class EmotionParticle {
+      constructor(emotion, x, y) {
+        this.emotion = emotion;
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * (motionMap[emotion] || 2);
+        this.vy = (Math.random() - 0.5) * (motionMap[emotion] || 2);
+        this.size = Math.random() * 20 + 10;
+        this.life = 1;
+        this.decay = Math.random() * 0.005 + 0.001;
+        this.rotation = 0;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+        this.pulsePhase = Math.random() * Math.PI * 2;
+        this.birthTime = time;
+        this.color = colorMap[emotion] || '#4ecdc4';
+        this.trails = [];
+        this.maxTrails = 10;
+      }
+
+      update() {
+        if (gravity) {
+          this.vy += 0.1;
+        }
+
+        switch(this.emotion) {
+          case 'joy':
+            this.vy += Math.sin(time * 0.1 + this.pulsePhase) * 0.3;
+            break;
+          case 'sadness':
+            this.vy += 0.05;
+            break;
+          case 'anger':
+            this.vx += (Math.random() - 0.5) * 0.5;
+            this.vy += (Math.random() - 0.5) * 0.5;
+            break;
+          case 'fear':
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const dx = this.x - centerX;
+            const dy = this.y - centerY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > 0) {
+              this.vx += (dx / dist) * 0.1;
+              this.vy += (dy / dist) * 0.1;
+            }
+            break;
+          case 'wonder':
+            this.x += Math.sin(time * 0.05 + this.pulsePhase) * 2;
+            this.y += Math.cos(time * 0.03 + this.pulsePhase) * 1.5;
+            break;
+          case 'serenity':
+            this.vx *= 0.99;
+            this.vy *= 0.99;
+            break;
+        }
+
+        this.trails.push({x: this.x, y: this.y, life: 1});
+        if (this.trails.length > this.maxTrails) {
+          this.trails.shift();
+        }
+
+        this.trails.forEach(trail => {
+          trail.life *= 0.95;
+        });
+        this.trails = this.trails.filter(trail => trail.life > 0.1);
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotationSpeed;
+
+        if (this.x < 0 || this.x > canvas.width) {
+          this.vx *= -0.8;
+          this.x = Math.max(0, Math.min(canvas.width, this.x));
+        }
+        if (this.y < 0 || this.y > canvas.height) {
+          this.vy *= -0.8;
+          this.y = Math.max(0, Math.min(canvas.height, this.y));
+        }
+
+        this.life -= this.decay;
+        this.currentSize = this.size + Math.sin(time * 0.1 + this.pulsePhase) * 5;
+      }
+
+      draw() {
+        this.trails.forEach((trail, index) => {
+          ctx.save();
+          ctx.globalAlpha = trail.life * 0.3;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(trail.x, trail.y, this.size * trail.life * 0.3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        ctx.save();
+        ctx.globalAlpha = this.life;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = this.color;
+        
+        this.drawShape();
+        ctx.restore();
+      }
+
+      drawShape() {
+        const size = this.currentSize;
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
+        
+        ctx.beginPath();
+        switch (shapeMap[this.emotion]) {
+          case 'circle':
+            ctx.arc(0, 0, size, 0, Math.PI * 2);
+            break;
+          case 'ellipse':
+            ctx.ellipse(0, 0, size + 10, size * 0.6, 0, 0, Math.PI * 2);
+            break;
+          case 'triangle':
+            ctx.moveTo(0, -size);
+            ctx.lineTo(-size * 0.8, size);
+            ctx.lineTo(size * 0.8, size);
+            ctx.closePath();
+            break;
+          case 'square':
+            ctx.rect(-size, -size, size * 2, size * 2);
+            break;
+          case 'star':
+            for (let i = 0; i < 5; i++) {
+              const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+              const outerRadius = size;
+              const innerRadius = size * 0.5;
+              const x1 = Math.cos(angle) * outerRadius;
+              const y1 = Math.sin(angle) * outerRadius;
+              const x2 = Math.cos(angle + Math.PI / 5) * innerRadius;
+              const y2 = Math.sin(angle + Math.PI / 5) * innerRadius;
+              
+              if (i === 0) ctx.moveTo(x1, y1);
+              else ctx.lineTo(x1, y1);
+              ctx.lineTo(x2, y2);
+            }
+            ctx.closePath();
+            break;
+          case 'polygon':
+            for (let i = 0; i < 6; i++) {
+              const angle = (i / 6) * Math.PI * 2;
+              const x = Math.cos(angle) * size;
+              const y = Math.sin(angle) * size;
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            break;
+          case 'spike':
+            for (let i = 0; i < 16; i++) {
+              const angle = (i / 16) * Math.PI * 2;
+              const radius = i % 2 === 0 ? size * 1.2 : size * 0.5;
+              const x = Math.cos(angle) * radius;
+              const y = Math.sin(angle) * radius;
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            break;
+          case 'wave':
+            ctx.moveTo(-size, 0);
+            for (let i = -size; i <= size; i += 5) {
+              const y = Math.sin((i / size) * Math.PI * 2 + time * 0.1) * (size * 0.3);
+              ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+            return;
+          default:
+            ctx.arc(0, 0, size, 0, Math.PI * 2);
+        }
+        
+        ctx.fill();
+        if (this.emotion === 'anger' || this.emotion === 'frustration') {
+          ctx.stroke();
+        }
+      }
+
+      isDead() {
+        return this.life <= 0;
+      }
+    }
+
+    function triggerEmotion(emotion) {
+      const count = Math.floor(Math.random() * 8) + 5;
+      for (let i = 0; i < count; i++) {
+        const x = canvas.width / 2 + (Math.random() - 0.5) * 100;
+        const y = canvas.height / 2 + (Math.random() - 0.5) * 100;
+        particles.push(new EmotionParticle(emotion, x, y));
+      }
+      
+      setTimeout(() => {
+        ctx.save();
+        ctx.fillStyle = colorMap[emotion] || '#4ecdc4';
+        ctx.font = 'bold 24px Arial';
+        ctx.textAlign = 'center';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = colorMap[emotion] || '#4ecdc4';
+        ctx.fillText(`${emotion}`, canvas.width / 2, 50);
+        ctx.restore();
+      }, 100);
+    }
+
+    function clearCanvas() {
+      particles = [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function toggleGravity() {
+      gravity = !gravity;
+    }
+
+    function explodeAll() {
+      particles.forEach(particle => {
+        particle.vx = (Math.random() - 0.5) * 10;
+        particle.vy = (Math.random() - 0.5) * 10;
+        particle.size *= 1.5;
+      });
+    }
+
+    function harmonyMode() {
+      const emotions = ['joy', 'serenity', 'wonder', 'awe'];
+      emotions.forEach((emotion, index) => {
+        setTimeout(() => triggerEmotion(emotion), index * 500);
+      });
+    }
+
+    function animate() {
+      time++;
+      
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles = particles.filter(particle => {
+        particle.update();
+        particle.draw();
+        return !particle.isDead();
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
+          const dx = p2.x - p1.x;
+          const dy = p2.y - p1.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          if (dist < 100 && dist > 0) {
+            ctx.save();
+            ctx.globalAlpha = (100 - dist) / 100 * 0.2;
+            ctx.strokeStyle = p1.color;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    setInterval(() => {
+      if (particles.length < 20 && Math.random() < 0.3) {
+        const emotions = Object.keys(colorMap);
+        const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+        triggerEmotion(randomEmotion);
+      }
+    }, 3000);
+  </script>
+</body>
+</html>
