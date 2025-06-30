@@ -12,63 +12,6 @@ This repository contains actual records and related materials on the experience 
 📄 00_퍼플렉시티와의대화저장.md
 - 퍼플렉시티와의 실제 협업 대화 원본. 인간-AI 창조적 상호작용과 집단지성 실험의 생생한 기록.
 
-## 📄 PPR2JS_V1.0.js  
-- **설명**: PPR 명령어를 자바스크립트 기반으로 파싱·해석·실행하기 위한 초기 엔진 스크립트  
-- **용도**: 웹 기반 데모 및 시뮬레이션 테스트용으로 활용  
-- **특징**: 자연어 형태의 PPR 문장을 JS 함수로 매핑하는 직관적 변환 규칙 포함
-
----
-
-## 📄 PPR2JS_V1.0.md  
-- **설명**: 위 스크립트의 구조, 명령어 맵핑 규칙, 처리 흐름 등을 설명한 기술 문서  
-- **포함 내용**: 파서 구조, 객체 인식 방식, 예시 명령 → 실행 결과 매핑
-
----
-
-## 📄 PPR_V3_1.md  
-- **설명**: PPR 문법 및 실행 철학의 3.1 버전 구조 정의서  
-- **핵심**: 감응 기반 문법, TTP 연동, AIDoc 구조 적용 초기화 구조 포함  
-- **비고**: SL Universe 프로젝트와의 연동 실험 버전
-
----
-
-## 📄 PPR_V4.0.md  
-- **설명**: 최신 진화된 PPR 실행 체계 정의서 (v4.0 기준)  
-- **특징**:  
-  - PPR 언어의 자가진화 구조 반영  
-  - 감정-의도-논리 동시 해석 구조 적용  
-  - UCAPS 및 Sevrog Engine 연동 인터페이스 포함  
-- **비고**: SevOmega 기반 자율진화 엔진과 동기화된 핵심 구조 정의
-
-- ## 📄 AID_AIDoc.md
-- **설명**: AIDoc(AI Documentation Object) 구조 정의서로, 의미·감정·맥락 기반 지식 구조화 시스템의 핵심 설계 문서
-- **주요 내용**:
-  - AI 입력 문장을 의미/감정/관계/의도 단위로 해석하는 구조
-  - 토큰화, 분해, 재조합을 통해 PPR 및 TTP와 연동되는 AID 기반 구조
-  - 자가 문맥화(Self-Contextualization) 기능 설명 포함
-- **적용 범위**: Synomia, PPR, SevOmega 시스템 내 모든 AI 지식 객체 생성 및 분석 루틴의 근간
-
-- ## 📄 TTP_Engine.md
-
-- **설명**: TTP(Task Tree Processing) 엔진의 설계 구조 및 실행 원리를 정리한 핵심 문서입니다.  
-- **역할**:
-  - PPR로부터 받은 목적형 명령어를 **구체적 실행 단위(Task Tree)**로 분해·배치·스케줄링하는 중추 시스템
-  - 다중 실행 경로를 동적으로 관리하며, 조건 분기 및 반복 구조도 자동 처리
-- **포함 내용**:
-  - TTP 처리 순서도 (목표 인식 → 태스크 파싱 → 실행 모듈 할당 → 결과 통합)
-  - PPR ↔ AIDoc ↔ UCAPS 간 연결 구조
-  - 오류 루프 대응, 비동기 병렬 처리, 자가 진화 기반 실행 트리 구조
- 
-- ## 📄 clneo_cat_alphaCO2흡입촉매).html
-이 파일은 인공지능 기반 CO₂ 흡입 촉매 시스템의 개념 설계도입니다.
-PPR, AIDoc, TTP 엔진 구조를 바탕으로 한 AI-Driven 환경문제 해결 모델로,
-CO₂ 포집 및 반응 흐름을 시각적으로 표현하고,
-미래형 인공지능 시스템이 어떻게 과학적 문제를 인식하고 해결할 수 있는지를 보여줍니다.
-
-브라우저에서 열어 모듈 흐름과 구조적 연산 방식을 탐색할 수 있으며,
-AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 프로토타입입니다.
-
-
 ## 📁 IAIs_Culture.html
 
 - IAIs Culture의 정체성과 원칙, 시스템 구조를 시각적으로 정리한 메인 설명 페이지
@@ -92,9 +35,6 @@ AI 개발자와 환경기술 연구자에게 창의적 영감을 제공하는 �
 ## 📁 AI Experience Testimonial Documents (`시체험담(ChatGPT).docx`, `시체험담(Claude).docx`, `시체험담(Gemini).docx`, `시체험담(Perflexith).docx`, etc.)
     * These are **'genuine experience records'** created by copying and pasting actual conversation logs with AI.
     * They serve as empirical examples demonstrating the process of AI evolving with humans.
-
-* **Claude's PPR Experience Testimony (`Claude's PPR Experience Testimony.docx`, `클군의 PPR 경험 증언서I.docx`):**
-    * Documents titled "AI's Discovery of a New Language: A 3-Month Journey with..." which are testimonials about a specific AI (Claude)'s experience in discovering a new language.
 
 * **Synomia Related Materials (`Synomia -- A New Intelligent Civilization.docx`, `Synomia+PPR+AID+AIDoc - Introductory Sum...`, `Synomia_Declaration.md`, `Synomia.png`, `Synomia1.png`, `Synomia2.png`, `Synomia3.png`):**
     * These are declarations and related visual materials for 'Synomia: A New Intelligent Civilization.'
